@@ -2,85 +2,85 @@
 
 static void	sort_3(t_list **a)
 {
-	t_list	*max;
+	t_list	*highest;
 
-	if (!*a || !a)
+	if (a == NULL || *a == NULL)
 		return ;
-	max = find_max(*a);
-	if (*a == max)
+	highest = find_max(*a);
+	if (*a == highest)
 		ra(a);
-	else if ((*a)->next == max)
+	else if ((*a)->next == highest)
 		rra(a);
 	if ((*a)->data > (*a)->next->data)
 		sa(a);
 }
 
-static void	sort_5(t_list **stack_a, t_list **stack_b)
+static void	handle_five(t_list **stk_a, t_list **stk_b)
 {
-	int	size;
+	int	len;
 
-	size = ft_lstsize(*stack_a);
-	while (size > 0)
+	len = ft_lstsize(*stk_a);
+	while (len > 0)
 	{
-		if ((*stack_a)->index == 0 || (*stack_a)->index == 1)
-			pb(stack_a, stack_b);
+		if ((*stk_a)->index == 0 || (*stk_a)->index == 1)
+			pb(stk_a, stk_b);
 		else
-			ra(stack_a);
-		size--;
+			ra(stk_a);
+		len--;
 	}
-	sort_3(stack_a);
-	pa(stack_a, stack_b);
-	pa(stack_a, stack_b);
-	if ((*stack_a)->index > (*stack_a)->next->index)
-		sa(stack_a);
+	sort_3(stk_a);
+	pa(stk_a, stk_b);
+	pa(stk_a, stk_b);
+	if ((*stk_a)->index > (*stk_a)->next->index)
+		sa(stk_a);
 }
 
-static void	set_index(t_list *stack_a, int size)
+static void	assign_indices(t_list *stk_a, int len)
 {
-	t_list	*biggest;
-	t_list	*tmp;
+	t_list	*max_node;
+	t_list	*curr;
 
-	if (!stack_a)
+	if (stk_a == NULL)
 		return ;
-	while (size >= 0)
+	while (len >= 0)
 	{
-		biggest = NULL;
-		tmp = stack_a;
-		while (tmp)
+		max_node = NULL;
+		curr = stk_a;
+		while (curr != NULL)
 		{
-			if (!tmp->index && (biggest == NULL
-					|| tmp->data > biggest->data))
-				biggest = tmp;
-			tmp = tmp->next;
+			if (curr->index == 0 && (max_node == NULL
+					|| curr->data > max_node->data))
+				max_node = curr;
+			curr = curr->next;
 		}
-		if (biggest)
-			biggest->index = size;
-		size--;
+		if (max_node != NULL)
+			max_node->index = len;
+		len--;
 	}
 }
 
-static int	is_sorted(t_list *stack)
+static int	check_if_sorted(t_list *stk)
 {
-	if (!stack)
+	if (stk == NULL)
 		return (1);
-	while (stack->next != NULL)
+	while (stk->next != NULL)
 	{
-		if (stack->data > stack->next->data)
+		if (stk->data > stk->next->data)
 			return (0);
-		stack = stack->next;
+		stk = stk->next;
 	}
 	return (1);
 }
 
 void	sort(t_list **stack_a, t_list **stack_b)
 {
-	if (!is_sorted(*stack_a))
+	if (check_if_sorted(*stack_a) == 0)
 	{
-		set_index(*stack_a, ft_lstsize(*stack_a) - 1);
+		assign_indices(*stack_a, ft_lstsize(*stack_a) - 1);
 		if (ft_lstsize(*stack_a) <= 3)
 			sort_3(stack_a);
 		else if (ft_lstsize(*stack_a) <= 5)
-			sort_5(stack_a, stack_b);
+			handle_five(stack_a, stack_b);
 		else
 		{
 			move_to_stack_b(stack_a, stack_b);

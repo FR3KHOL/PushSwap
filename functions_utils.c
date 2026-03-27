@@ -1,58 +1,58 @@
 #include "push_swap.h"
 
-static char	**prepare_args(char **argv)
+static char	**join_all_args(char **av)
 {
-	char	**list;
-	char	*temp1;
-	char	*temp2;
-	int		i;
+	char	**split_arr;
+	char	*str_accum;
+	char	*tmp_str;
+	int		idx;
 
-	i = 2;
-	if (!*argv || !argv)
+	idx = 2;
+	if (av == NULL || *av == NULL)
 		return (NULL);
-	temp1 = ft_strdup(argv[1]);
-	if (!temp1)
+	str_accum = ft_strdup(av[1]);
+	if (str_accum == NULL)
 		return (NULL);
-	while (argv[i])
+	while (av[idx] != NULL)
 	{
-		temp2 = ft_strjoin(temp1, " ");
-		if (!temp2)
-			return (free(temp1), NULL);
-		free(temp1);
-		temp1 = ft_strjoin(temp2, argv[i]);
-		free(temp2);
-		if (!temp1)
+		tmp_str = ft_strjoin(str_accum, " ");
+		if (tmp_str == NULL)
+			return (free(str_accum), NULL);
+		free(str_accum);
+		str_accum = ft_strjoin(tmp_str, av[idx]);
+		free(tmp_str);
+		if (str_accum == NULL)
 			return (NULL);
-		i++;
+		idx++;
 	}
-	list = ft_split(temp1, ' ');
-	return (free(temp1), list);
+	split_arr = ft_split(str_accum, ' ');
+	return (free(str_accum), split_arr);
 }
 
 t_list	*fill_stack_a(char **argv)
 {
-	t_list	*new;
-	t_list	*stack_a;
-	char	**list;
-	int		i;
+	t_list	*new_node;
+	t_list	*stk_a;
+	char	**split_str;
+	int		idx;
 
-	list = prepare_args(argv);
-	if (!list || !*list)
+	split_str = join_all_args(argv);
+	if (split_str == NULL || *split_str == NULL)
 		return (NULL);
-	stack_a = NULL;
-	i = 0;
-	while (list[i])
+	stk_a = NULL;
+	idx = 0;
+	while (split_str[idx] != NULL)
 	{
-		new = ft_lstnew(ft_atoi(list[i]));
-		if (!new)
+		new_node = ft_lstnew(ft_atoi(split_str[idx]));
+		if (new_node == NULL)
 		{
-			ft_lstclear(&stack_a);
+			ft_lstclear(&stk_a);
 			return (NULL);
 		}
-		ft_lstadd_back(&stack_a, new);
-		i++;
+		ft_lstadd_back(&stk_a, new_node);
+		idx++;
 	}
-	return (stack_a);
+	return (stk_a);
 }
 
 void	print_error(void)
@@ -63,15 +63,15 @@ void	print_error(void)
 
 void	free_args(char **args)
 {
-	int	i;
+	int	idx;
 
-	i = 0;
-	if (!args)
+	idx = 0;
+	if (args == NULL)
 		return ;
-	while (args[i])
+	while (args[idx] != NULL)
 	{
-		free(args[i]);
-		i++;
+		free(args[idx]);
+		idx++;
 	}
 	free(args);
 }

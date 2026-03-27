@@ -1,27 +1,27 @@
 #include "push_swap.h"
 
-static void	push_stack(t_list **stack1, t_list **stack2)
+static void	move_node_top(t_list **src, t_list **dst)
 {
-	t_list	*top;
+	t_list	*first_src;
 
-	top = (*stack1)->next;
-	(*stack1)->next = *stack2;
-	*stack2 = *stack1;
-	*stack1 = top;
+	first_src = (*src)->next;
+	(*src)->next = *dst;
+	*dst = *src;
+	*src = first_src;
 }
 
 void	pa(t_list **stack_a, t_list **stack_b)
 {
-	if (!*stack_b || !stack_b)
+	if (stack_b == NULL || *stack_b == NULL)
 		return ;
-	push_stack(stack_b, stack_a);
+	move_node_top(stack_b, stack_a);
 	ft_putstr_fd("pa\n", 1);
 }
 
 void	pb(t_list **stack_a, t_list **stack_b)
 {
-	if (!*stack_a || !stack_a)
+	if (stack_a == NULL || *stack_a == NULL)
 		return ;
-	push_stack(stack_a, stack_b);
+	move_node_top(stack_a, stack_b);
 	ft_putstr_fd("pb\n", 1);
 }

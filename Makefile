@@ -18,7 +18,7 @@ SRC_LIB = Libft/ft_atoi.c Libft/ft_bzero.c Libft/ft_calloc.c Libft/ft_isalnum.c 
 		Libft/ft_lstsize.c Libft/ft_lstnew.c Libft/ft_lstlast.c Libft/ft_lstclear.c Libft/ft_lstadd_back.c
 
 SRCS = 	main.c \
-		functions_parrsing.c \
+		functions_parsing.c \
 		functions_push.c \
 		functions_reverse_rotate.c \
 		functions_rotate.c \

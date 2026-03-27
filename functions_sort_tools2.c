@@ -1,55 +1,55 @@
 #include "push_swap.h"
 
-static int	is_decreasing(t_list *a, int half)
+static int	check_descending(t_list *node, int limit)
 {
-	int	count;
+	int	streak;
 
-	count = 0;
-	while (a && a->next)
+	streak = 0;
+	while (node != NULL && node->next != NULL)
 	{
-		if (a->data >= a->next->data)
-			count++;
+		if (node->data >= node->next->data)
+			streak++;
 		else
-			count = 0;
-		if (count >= half)
+			streak = 0;
+		if (streak >= limit)
 			return (1);
-		a = a->next;
+		node = node->next;
 	}
 	return (0);
 }
 
-static void	do_move(t_list **stack_a, int half)
+static void	execute_rotation(t_list **stk_a, int limit)
 {
-	if (is_decreasing(*stack_a, half))
-		rra(stack_a);
+	if (check_descending(*stk_a, limit) == 1)
+		rra(stk_a);
 	else
-		ra(stack_a);
+		ra(stk_a);
 }
 
 void	move_to_stack_b(t_list **stack_a, t_list **stack_b)
 {
-	int	range;
-	int	i;
+	int	chunk_size;
+	int	pushed_count;
 
-	i = 0;
+	pushed_count = 0;
 	if (ft_lstsize(*stack_a) > 100)
-		range = 30;
+		chunk_size = 30;
 	else
-		range = 15;
-	while (ft_lstsize(*stack_a))
+		chunk_size = 15;
+	while (ft_lstsize(*stack_a) > 0)
 	{
-		if ((*stack_a)->index <= i)
+		if ((*stack_a)->index <= pushed_count)
 		{
 			pb(stack_a, stack_b);
-			i++;
+			pushed_count++;
 		}
-		else if ((*stack_a)->index <= (i + range))
+		else if ((*stack_a)->index <= (pushed_count + chunk_size))
 		{
 			pb(stack_a, stack_b);
 			rb(stack_b);
-			i++;
+			pushed_count++;
 		}
 		else
-			do_move(stack_a, ft_lstsize(*stack_a) / 4);
+			execute_rotation(stack_a, ft_lstsize(*stack_a) / 4);
 	}
 }

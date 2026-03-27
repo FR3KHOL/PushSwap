@@ -1,40 +1,40 @@
 #include "push_swap.h"
 
-static void	ft_swap_stack(t_list **stack)
+static void	swap_top_nodes(t_list **stk)
 {
-	t_list	*top;
-	t_list	*second;
+	t_list	*first;
+	t_list	*next_node;
 
-	top = *stack;
-	second = (*stack)->next;
-	top->next = second->next;
-	second->next = top;
-	*stack = second;
+	first = *stk;
+	next_node = (*stk)->next;
+	first->next = next_node->next;
+	next_node->next = first;
+	*stk = next_node;
 }
 
 void	sa(t_list **stack)
 {
-	if (!stack || !*stack || !(*stack)->next)
+	if (stack == NULL || *stack == NULL || (*stack)->next == NULL)
 		return ;
-	ft_swap_stack(stack);
+	swap_top_nodes(stack);
 	ft_putstr_fd("sa\n", 1);
 }
 
 void	sb(t_list **stack)
 {
-	if (!stack || !*stack || !(*stack)->next)
+	if (stack == NULL || *stack == NULL || (*stack)->next == NULL)
 		return ;
-	ft_swap_stack(stack);
+	swap_top_nodes(stack);
 	ft_putstr_fd("sb\n", 1);
 }
 
 void	ss(t_list **stack_a, t_list **stack_b)
 {
-	if (!stack_a || !*stack_a || !(*stack_a)->next)
+	if (stack_a == NULL || *stack_a == NULL || (*stack_a)->next == NULL)
 		return ;
-	if (!stack_b || !*stack_b || !(*stack_b)->next)
+	if (stack_b == NULL || *stack_b == NULL || (*stack_b)->next == NULL)
 		return ;
-	ft_swap_stack(stack_a);
-	ft_swap_stack(stack_b);
+	swap_top_nodes(stack_a);
+	swap_top_nodes(stack_b);
 	ft_putstr_fd("ss\n", 1);
 }

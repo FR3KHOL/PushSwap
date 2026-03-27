@@ -1,42 +1,42 @@
 #include "push_swap.h"
 
-static void	ft_rev_rotate(t_list **stack)
+static void	shift_down(t_list **stk)
 {
-	t_list	*tmp;
-	t_list	*tail;
+	t_list	*curr;
+	t_list	*last;
 
-	tail = ft_lstlast(*stack);
-	tmp = *stack;
-	while (tmp->next != tail && tmp->next)
-		tmp = tmp->next;
-	tmp->next = NULL;
-	tail->next = *stack;
-	*stack = tail;
+	last = ft_lstlast(*stk);
+	curr = *stk;
+	while (curr->next != NULL && curr->next != last)
+		curr = curr->next;
+	curr->next = NULL;
+	last->next = *stk;
+	*stk = last;
 }
 
 void	rra(t_list **stack_a)
 {
-	if (!stack_a || !*stack_a || !(*stack_a)->next)
+	if (stack_a == NULL || *stack_a == NULL || (*stack_a)->next == NULL)
 		return ;
-	ft_rev_rotate(stack_a);
+	shift_down(stack_a);
 	ft_putstr_fd("rra\n", 1);
 }
 
 void	rrb(t_list **stack_b)
 {
-	if (!stack_b || !*stack_b || !(*stack_b)->next)
+	if (stack_b == NULL || *stack_b == NULL || (*stack_b)->next == NULL)
 		return ;
-	ft_rev_rotate(stack_b);
+	shift_down(stack_b);
 	ft_putstr_fd("rrb\n", 1);
 }
 
 void	rrr(t_list **stack_a, t_list **stack_b)
 {
-	if (!stack_a || !*stack_a || !(*stack_a)->next)
+	if (stack_a == NULL || *stack_a == NULL || (*stack_a)->next == NULL)
 		return ;
-	if (!stack_b || !*stack_b || !(*stack_b)->next)
+	if (stack_b == NULL || *stack_b == NULL || (*stack_b)->next == NULL)
 		return ;
-	ft_rev_rotate(stack_a);
-	ft_rev_rotate(stack_b);
+	shift_down(stack_a);
+	shift_down(stack_b);
 	ft_putstr_fd("rrr\n", 1);
 }
