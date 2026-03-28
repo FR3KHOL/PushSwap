@@ -1,78 +1,78 @@
 #include "push_swap.h"
 
-static t_stack	*alloc_save_t_stack(size_t alloc_size, t_gar **gh)
+static t_stack	*allocate_and_track(size_t size, t_gar **garb_head)
 {
-	t_stack	*res;
-	t_gar	*stack;
+	t_stack	*new_node;
+	t_gar	*old_garb;
 
-	res = (t_stack *)malloc(alloc_size);
-	if (!res)
+	new_node = (t_stack *)malloc(size);
+	if (new_node == NULL)
 		return (NULL);
-	stack = *gh;
-	*gh = malloc(sizeof(t_gar));
-	if (!(*gh))
+	old_garb = *garb_head;
+	*garb_head = malloc(sizeof(t_gar));
+	if (*garb_head == NULL)
 		return (NULL);
-	(*gh)->next = stack;
-	(*gh)->ptr = res;
-	return (res);
+	(*garb_head)->next = old_garb;
+	(*garb_head)->ptr = new_node;
+	return (new_node);
 }
 
-t_stack	*add_end(t_stack *head, int number, t_gar **gh)
+t_stack	*append_node(t_stack *stk, int val, t_gar **gc_head)
 {
-	t_stack	*node;
+	t_stack	*item;
 
-	node = alloc_save_t_stack(sizeof(t_stack), gh);
-	if (!node)
+	item = allocate_and_track(sizeof(t_stack), gc_head);
+	if (item == NULL)
 		return (NULL);
-	node->data = number;
-	push(&head, node);
-	rotate(&head);
-	return (head);
+	item->data = val;
+	insert_top(&stk, item);
+	rotate_stack(&stk);
+	return (stk);
 }
 
-int	free_gc(t_gar *gh)
+int	clear_garbage(t_gar *gc_list)
 {
-	t_gar	*temp;
+	t_gar	*current;
 
-	temp = gh;
-	if (!temp)
+	current = gc_list;
+	if (current == NULL)
 		return (0);
-	while (temp)
+	while (current != NULL)
 	{
-		free(temp->ptr);
-		temp = temp->next;
+		free(current->ptr);
+		current = current->next;
 	}
-	while (gh)
+	while (gc_list != NULL)
 	{
-		temp = gh;
-		gh = gh->next;
-		free(temp);
+		current = gc_list;
+		gc_list = gc_list->next;
+		free(current);
 	}
 	return (0);
 }
 
-int	nbr_exist_in_stack(t_stack *head, int nbr)
+int	has_duplicate(t_stack *stk, int val)
 {
-	while (head)
+	while (stk != NULL)
 	{
-		if (head->data == nbr)
+		if (stk->data == val)
 			return (1);
-		head = head->next;
+		stk = stk->next;
 	}
 	return (0);
 }
 
-int	l_size(t_stack *list)
+int	stack_length(t_stack *stk)
 {
-	int		size;
-	t_stack	*temp;
+	int		len;
+	t_stack	*curr;
 
-	temp = list;
-	size = 0;
-	while (temp)
+	curr = stk;
+	len = 0;
+	while (curr != NULL)
 	{
-		temp = temp->next;
-		size++;
+		curr = curr->next;
+		len++;
 	}
-	return (size);
+	return (len);
 }

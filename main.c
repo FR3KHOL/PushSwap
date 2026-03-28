@@ -1,43 +1,44 @@
 #include "push_swap.h"
 
-static void	decide_sort(t_stack **stack_a, t_stack **stack_b, int size)
+static void	execute_sorting_strategy(t_stack **stk_a, t_stack **stk_b, int len)
 {
-	if (check_sort(*stack_a))
+	if (is_sorted(*stk_a) == 1)
 		return ;
-	else if (size == 2)
-		sort_two(stack_a);
+	if (len == 2)
+		sort_pair(stk_a);
 	else
 	{
-		indexer(*stack_a);
-		if (size == 3)
-			sort_three(stack_a);
-		else if (size >= 4 && size <= 15)
-			sort_small(stack_a, stack_b, size);
+		assign_ranks(*stk_a);
+		if (len == 3)
+			sort_trio(stk_a);
+		else if (len >= 4 && len <= 15)
+			sort_few(stk_a, stk_b, len);
 		else
 		{
-			k_distrub(stack_a, stack_b);
-			push_back(stack_a, stack_b, l_size(*stack_b));
+			distribute_elements(stk_a, stk_b);
+			pull_back_to_a(stk_a, stk_b, stack_length(*stk_b));
 		}
 	}
-	return ;
 }
 
-int	main(int ac, char **av)
+int	main(int argc, char **argv)
 {
-	t_stack	*stack_a;
-	t_stack	*stack_b;
-	t_gar	*garbage;
+	t_stack	*stk_a;
+	t_stack	*stk_b;
+	t_gar	*gc_head;
 
-	if (ac < 2)
+	if (argc < 2)
 		return (0);
-	stack_a = NULL;
-	stack_b = NULL;
-	garbage = NULL;
-	if (parse_av(&stack_a, ac, av, &garbage) == 0)
+	stk_a = NULL;
+	stk_b = NULL;
+	gc_head = NULL;
+	if (parse_arguments(&stk_a, argc, argv, &gc_head) == 0)
 	{
-		free_gc(garbage);
-		return (write(2, "Error\n", 6));
+		clear_garbage(gc_head);
+		write(2, "Error\n", 6);
+		return (0);
 	}
-	decide_sort(&stack_a, &stack_b, l_size(stack_a));
-	free_gc(garbage);
+	execute_sorting_strategy(&stk_a, &stk_b, stack_length(stk_a));
+	clear_garbage(gc_head);
+	return (0);
 }

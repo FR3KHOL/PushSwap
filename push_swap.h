@@ -18,28 +18,37 @@ typedef struct t_gar
 	void			*ptr;
 }					t_gar;
 
-int					parse_av(t_stack **head, int ac, char **av, t_gar **gh);
-t_stack				*add_end(t_stack *head, int number, t_gar **gh);
-int					free_gc(t_gar *gh);
-int					nbr_exist_in_stack(t_stack *head, int nbr);
-int					l_size(t_stack *list);
+/* parse_input.c */
+int		parse_arguments(t_stack **stk, int argc, char **argv, t_gar **gc);
 
-void				swap(t_stack **head);
-void				ss(t_stack **head1, t_stack **head2);
-void				push(t_stack **stack, t_stack *element);
-void				p(t_stack **stack_to, t_stack **stack_from);
-void				rotate(t_stack **stack);
-void				rr(t_stack **stack_to, t_stack **stack_from);
-void				reverse_rotate(t_stack **stack);
-void				rrr(t_stack **stack_to, t_stack **stack_from);
+/* stack_utils.c */
+t_stack	*append_node(t_stack *stk, int val, t_gar **gc_head);
+int		clear_garbage(t_gar *gc_list);
+int		has_duplicate(t_stack *stk, int val);
+int		stack_length(t_stack *stk);
 
-void				indexer(t_stack *stack);
-void				k_distrub(t_stack **stack_a, t_stack **stack_b);
-int					check_sort(t_stack *stack);
-void				sort_two(t_stack **stack_a);
-void				sort_three(t_stack **stack_a);
-void				sort_small(t_stack **stack_a, t_stack **stack_b, int size);
-int					get_pos(t_stack **stack_a, int index);
-void				push_back(t_stack **stack_a, t_stack **stack_b, int size);
+/* ops_push_swap.c */
+void	swap_nodes(t_stack **stk);
+void	ss(t_stack **stk_a, t_stack **stk_b);
+void	insert_top(t_stack **stk, t_stack *node);
+void	push_node(t_stack **dst, t_stack **src);
+
+/* ops_rotate.c */
+void	rotate_stack(t_stack **stk);
+void	rr(t_stack **stk_a, t_stack **stk_b);
+void	rev_rotate_stack(t_stack **stk);
+void	rrr(t_stack **stk_a, t_stack **stk_b);
+
+/* algo_chunk.c */
+int		is_sorted(t_stack *stk);
+void	assign_ranks(t_stack *stk);
+void	distribute_elements(t_stack **stk_a, t_stack **stk_b);
+void	pull_back_to_a(t_stack **stk_a, t_stack **stk_b, int len);
+
+/* sort_small.c */
+void	sort_pair(t_stack **stk_a);
+int		find_position(t_stack **stk, int target_idx);
+void	sort_trio(t_stack **stk_a);
+void	sort_few(t_stack **stk_a, t_stack **stk_b, int len);
 
 #endif

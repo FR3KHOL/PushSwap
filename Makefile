@@ -1,7 +1,17 @@
 NAME = push_swap
-SRC = main.c stack_utils.c av_parser.c  mv_push_swap.c mv_rotations.c sorting.c small_sort.c
+
+SRC = main.c \
+      stack_utils.c \
+      parse_input.c \
+      ops_push_swap.c \
+      ops_rotate.c \
+      algo_chunk.c \
+      sort_small.c
+
 OBJ = $(SRC:.c=.o)
+
 CFLAGS = -Wall -Wextra -Werror
+
 CC = cc
 RM = rm -f
 
