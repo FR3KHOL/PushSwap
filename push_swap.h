@@ -1,26 +1,45 @@
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-# include "Libft/libft.h"
+# include <limits.h>
+# include <stdlib.h>
+# include <unistd.h>
 
-void	sa(t_list **stack);
-void	sb(t_list **stack);
-void	ss(t_list **stack_a, t_list **stack_b);
-void	pa(t_list **stack_a, t_list **stack_b);
-void	pb(t_list **stack_a, t_list **stack_b);
-void	ra(t_list **stack_a);
-void	rb(t_list **stack_b);
-void	rr(t_list **stack_a, t_list **stack_b);
-void	rra(t_list **stack_a);
-void	rrb(t_list **stack_b);
-void	rrr(t_list **stack_a, t_list **stack_b);
-int		check_args(int ac, char **av);
-void	print_error(void);
-void	free_args(char **args);
-t_list	*find_max(t_list *stack);
-void	sort(t_list **a, t_list **b);
-void	move_largest_to_a(t_list **stack_a, t_list **stack_b);
-t_list	*fill_stack_a(char **list);
-void	move_to_stack_b(t_list **stack_a, t_list **stack_b);
+typedef struct t_stack
+{
+	struct t_stack	*next;
+	int				index;
+	int				data;
+}					t_stack;
+
+typedef struct t_gar
+{
+	struct t_gar	*next;
+	void			*ptr;
+}					t_gar;
+
+int					parse_av(t_stack **head, int ac, char **av, t_gar **gh);
+t_stack				*add_end(t_stack *head, int number, t_gar **gh);
+int					free_gc(t_gar *gh);
+int					nbr_exist_in_stack(t_stack *head, int nbr);
+int					l_size(t_stack *list);
+
+void				swap(t_stack **head);
+void				ss(t_stack **head1, t_stack **head2);
+void				push(t_stack **stack, t_stack *element);
+void				p(t_stack **stack_to, t_stack **stack_from);
+void				rotate(t_stack **stack);
+void				rr(t_stack **stack_to, t_stack **stack_from);
+void				reverse_rotate(t_stack **stack);
+void				rrr(t_stack **stack_to, t_stack **stack_from);
+
+void				indexer(t_stack *stack);
+void				k_distrub(t_stack **stack_a, t_stack **stack_b);
+int					check_sort(t_stack *stack);
+void				sort_two(t_stack **stack_a);
+void				sort_three(t_stack **stack_a);
+void				sort_small(t_stack **stack_a, t_stack **stack_b, int size);
+int					get_pos(t_stack **stack_a, int index);
+void				push_back(t_stack **stack_a, t_stack **stack_b, int size);
 
 #endif
